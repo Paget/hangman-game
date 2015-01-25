@@ -67,8 +67,6 @@ function setGuess(guessInputValue) {
 
 function checkGuess() {
 
-  turnsRemaining();
-
   dashedDisplayWord = dashedDisplayWord.split(" ");
 
   for (var i = 0; i < randomWordToArray.length; ++i) {
@@ -79,14 +77,60 @@ function checkGuess() {
 
   dashedDisplayWord = dashedDisplayWord.join(' ');
   updateDashDisplay(dashedDisplayWord);
+
+  turnsRemaining();
+
+  isGameOver();
 }
+
+function isGameOver() {
+
+    if (checkWordCompletion() === false) {
+
+      if (livesRemaining <= 0) {
+
+        userLoses();
+
+      }
+
+    } else {
+
+      userWins();
+    }
+}
+
+var element = document.querySelector('.turn-count');
+var livesRemaining = Number(element.textContent);
 
 function turnsRemaining() {
 
-  var element = document.querySelector('.turn-count');
-
-  var livesRemaining = Number(element.textContent) - 1;
+  livesRemaining = livesRemaining - 1;
 
   element.textContent = livesRemaining;
 
+}
+
+function checkWordCompletion() {
+
+  if (dashedDisplayWord.indexOf("_") === -1) {
+    return true;
+
+  } else {
+
+    return false;
+
+  }
+
+}
+
+//when user wins (guesses word in 8 tries or less)
+
+function userLoses() {
+  alert("YOU LOSE SUCKER!");
+}
+
+//when user loses (does NOT guess word in 8 tries or less)
+
+function userWins() {
+  alert("YOU WIN A PONY!");
 }
